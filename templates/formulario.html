@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Qualidade do Sono - PSQI</title>
+    <style>
+        /* Estilos globais */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Estilo do container principal */
+        .container {
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0073e6;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            background-color: #0073e6;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+       
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            label, input, select, button {
+                font-size: 14px;
+            }
+
+            button {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            label, input, select, button {
+                font-size: 12px;
+            }
+
+            button {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Questionário de Qualidade do Sono</h1>
+        <form id="psqi-form">
+            
+            <div>
+                <label for="horadedormir">1.  Durante o último mês, quando você geralmente foi para a cama a noite? Insira sua hora usual de deitar:  </label>
+                <input type="time" id="horadedormir" name="horadedormir" required>
+                <span id="bedtime-error" class="error"></span>
+            </div>
+            <div>
+                <label for="tempodormir">2. Quanto tempo (em minutos) você geralmente levou para dormir a noite?</label>
+                <input type="number" id="tempodormir" name="tempodormir" min="0" required>
+            </div>
+
+
+          
+        <div>
+            <label for="horadeacordar">3. Durante o último mês, quando você geralmente levantou de manhã?</label>
+            <input type="time" id="horadeacordar" name="horadeacordar" required>
+        </div>
+
+        <div>
+            <label for="horasdesono">4.Durante o último mês, quantas horas de sono você teve por noite? (Este pode ser diferente 
+                do número de horas que você ficou na cama) </label>
+            <input type="number" id="horasdesono" name="horasdesono" min="0" step="0.1" required>
+        </div>
+
+        <!-- 5. Perguntas de frequência (5a a 5j) -->
+        <h2>5. Durante o último mês, com que frequência você teve dificuldade de dormir poque você...</h2>
+
+        <div>
+            <label for="trouble-sleeping-A">A. Não conseguiu adormecer em até 30 minutos?</label>
+            <select id="trouble-sleeping-A" name="trouble-sleeping-A" required>
+                <option value="">Selecione</option>
+                <option value="0">Nenhuma vez</option>
+                <option value="1">Menos de uma vez por semana</option>
+                <option value="2">Uma ou duas vezes por semana</option>
+                <option value="3">Três ou mais vezes por semana</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="waking-5b"><B class="Acordou"></B> no meio da noite ou de madrugada?</label>
+            <select id="waking-5b" name="waking5b" required>
+                <option value="">Selecione</option>
+                <option value="0">Nenhuma vez</option>
+                <option value="1">Menos de uma vez por semana</option>
+                <option value="2">Uma ou duas vezes por semana</option>
+                <option value="3">Três ou mais vezes por semana</option>
+            </select>
+        </div>
+
+            <div>
+                <label for="bathroom-5c">C. Precisou levantar para ir ao banheiro?</label>
+                <select id="bathroom-5c" name="bathroom5c" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="breathing-5d">D. Não conseguiu respirar confortavelmente?</label>
+                <select id="breathing-5d" name="breathing5d" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="coughing-5e">E. Tossiu ou roncou forte?</label>
+                <select id="coughing-5e" name="coughing5e" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+             </div>
+             <div>
+                <label for="cold-5f">F. Sentiu muito frio?</label>
+                <select id="cold-5f" name="cold5f" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="hot-5g">G. Sentiu muito calor?</label>
+                <select id="hot-5g" name="hot5g" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="dreams-5h">H.Teve sonhos ruins?</label>
+                <select id="dreams-5h" name="dreams5h" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="pain-5i">I.Teve dor?</label>
+                <select id="pain-5i" name="pain5i" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="other-reasons-5j">J. outra(s) razão(ões), por favor descreva:
+                   E com que frequência, durante o último mês, você teve 
+                    dificuldade para dormir devido a essa razão? ?</label>
+                <input type="text" id="other-reasons-5j" name="otherReasons5j">
+            </div>
+             <!-- 6. Como você classificaria a qualidade do seu sono geral? -->
+            <div>
+                <label for="sleep-quality">6.  Durante o último mês como você classificaria a 
+                    qualidade do seu sono de uma maneira geral: </label>
+                <select id="sleep-quality" name="sleepQuality" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Muito boa</option>
+                    <option value="1">Boa</option>
+                    <option value="2">Ruim</option>
+                    <option value="3">Muito ruim</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="sleep-medication">7.  Durante o último mês, com que frequência você tomou 
+                    medicamento (prescrito ou “por conta própria”) para lhe 
+                    ajudara dormir? </label>
+                <select id="sleep-medication" name="sleepMedication" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+    
+            
+            <div>
+                <label for="entusiasmo">8. No último mês, que frequência você teve dificuldade 
+                    para ficar acordado enquanto dirigia, comia ou participava 
+                    de uma atividade social (festa, reunião de amigos, 
+                    trabalho, estudo) </label>
+                <select id="entusiasmo" name="entusiasmo" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma vez</option>
+                    <option value="1">Menos de uma vez por semana</option>
+                    <option value="2">Uma ou duas vezes por semana</option>
+                    <option value="3">Três ou mais vezes por semana</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="ânimo">9. Durante o último mês, quão problemático foi pra você 
+                    manter o entusiasmo (ânimo) para fazer as coisas (suas 
+                    atividades habituais)?</label>
+                <select id="ânimo" name="ânimo" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Nenhuma dificuldade</option>
+                    <option value="1">Um problema leve</option>
+                    <option value="2">Um problema razoavel</option>
+                    <option value="3">Um grande problema</option>
+                </select>
+            </div>
+    
+            <div>
+                <label for="physical-health">10.  Você tem um(a) parceiro[esposo (a)] ou colega de 
+                    quarto? </label>
+                <select id="physical-health" name="physicalHealth" required>
+                    <option value="">Selecione</option>
+                    <option value="0">Não</option>
+                    <option value="1">Sim</option>
+                </select>
+            </div>
+
+
+            <button type="submit">Enviar</button>
+            </form>
+
+
+    <script>
+        document.getElementById('psqi-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Impede o envio padrão
+
+            let isValid = true;
+
+            
+            const formData = new FormData(event.target);
+            const formValues = Object.fromEntries(formData);
+
+            
+            fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formValues),
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    if (result.message) {
+                        alert('Respostas salvas com sucesso!');
+                        window.location.href = 'resultados.html';
+                    } else {
+                        alert('Erro ao salvar os dados.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar:', error);
+                    alert('Erro ao enviar o formulário. Tente novamente.');
+                });
+            }
+        );
+
+            if (isValid) {
+                // Enviar os dados para o backend
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formValues),
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                if (response.ok) {
+                    // Redirecionar para a página de resultados após salvar no banco
+                    sessionStorage.setItem('psqiResults', JSON.stringify(formValues));
+                    window.location.href = 'resultados.html';
+                } else {
+                    alert('Erro ao salvar os dados.');
+                }
+            }
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - PSQI</title>
+    <style>
+        
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-top: 15px;
+    }
+
+    input, select {
+        padding: 10px;
+        margin-top: 5px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 10px;
+        }
+        input, select {
+            font-size: 14px;
+        }
+    }
+</style>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados do PSQI</h1>
+        <div id="results"></div>
+        <div class="total-score" id="total-score"></div>
+        <div class="score-explanation" id="score-explanation"></div>
+    </div>
+
+    <script>
+        // Recuperar as respostas salvas do sessionStorage
+        const psqiResults = JSON.parse(sessionStorage.getItem('psqiResults'));
+
+        // Função para calcular a pontuação do PSQI
+        function calcularPontuacaoPSQI(respostas) {
+            // Componentes do PSQI (simplificados, pois o cálculo detalhado varia)
+            let qualidadeSono = parseInt(respostas.sleepQuality); // Qualidade subjetiva
+            let latenciaSono = calcularLatenciaSono(respostas.sleepLatency); // Latência do sono
+            let duracaoSono = calcularDuracaoSono(respostas.bedtime, respostas.wakeTime); // Duração do sono
+            // Outros componentes podem ser calculados aqui...
+
+            // Soma das pontuações
+            let pontuacaoTotal = qualidadeSono + latenciaSono + duracaoSono; // Continuar somando os outros componentes
+
+            return pontuacaoTotal;
+        }
+
+        // Função para calcular o componente "latência do sono"
+        function calcularLatenciaSono(sleepLatency) {
+            if (sleepLatency <= 15) return 0;
+            if (sleepLatency <= 30) return 1;
+            if (sleepLatency <= 60) return 2;
+            return 3;
+        }
+
+        // Função para calcular o componente "duração do sono"
+        function calcularDuracaoSono(bedtime, wakeTime) {
+            // Converter os horários em minutos
+            const [bedHour, bedMin] = bedtime.split(':').map(Number);
+            const [wakeHour, wakeMin] = wakeTime.split(':').map(Number);
+
+            let totalMinutesBed = bedHour * 60 + bedMin;
+            let totalMinutesWake = wakeHour * 60 + wakeMin;
+
+            // Ajuste se o horário de acordar for no dia seguinte
+            if (totalMinutesWake < totalMinutesBed) {
+                totalMinutesWake += 24 * 60;
+            }
+
+            const sleepDuration = totalMinutesWake - totalMinutesBed;
+
+            if (sleepDuration >= 7 * 60) return 0; // >= 7 horas de sono
+            if (sleepDuration >= 6 * 60) return 1; // 6 a 7 horas de sono
+            if (sleepDuration >= 5 * 60) return 2; // 5 a 6 horas de sono
+            return 3; // < 5 horas de sono
+        }
+
+        // Função para exibir as respostas
+        function exibirRespostas(respostas) {
+            let resultadosHTML = `
+                <p class="result"><strong>Hora de ir para a cama:</strong> ${respostas.bedtime}</p>
+                <p class="result"><strong>Minutos para adormecer:</strong> ${respostas.sleepLatency} minutos</p>
+                <p class="result"><strong>Hora de acordar:</strong> ${respostas.wakeTime}</p>
+                <p class="result"><strong>Qualidade do sono:</strong> ${respostas.sleepQuality == 0 ? 'Muito boa' : respostas.sleepQuality == 1 ? 'Boa' : respostas.sleepQuality == 2 ? 'Ruim' : 'Muito ruim'}</p>
+                <!-- Exibir outras respostas... -->
+            `;
+            document.getElementById('results').innerHTML = resultadosHTML;
+        }
+
+        // Exibir explicação da pontuação
+        function exibirExplicacaoPontuacao(pontuacao) {
+            let explicacao;
+            if (pontuacao <= 5) {
+                explicacao = "Boa qualidade do sono.";
+            } else if (pontuacao <= 10) {
+                explicacao = "Qualidade moderada do sono.";
+            } else {
+                explicacao = "Problemas graves com a qualidade do sono.";
+            }
+            document.getElementById('score-explanation').textContent = explicacao;
+        }
+
+        // Função para calcular e exibir os resultados
+        function exibirResultados() {
+            exibirRespostas(psqiResults);
+            let pontuacaoTotal = calcularPontuacaoPSQI(psqiResults);
+            document.getElementById('total-score').textContent = `Pontuação Total: ${pontuacaoTotal}`;
+            exibirExplicacaoPontuacao(pontuacaoTotal);
+        }
+
+        // Executar ao carregar a página
+        exibirResultados();
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados PSQI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Resultados do Questionário de Qualidade do Sono</h1>
+    
+    <p><strong>Hora de Dormir:</strong> {{ bedtime }}</p>
+    <p><strong>Latência do Sono:</strong> {{ sleep_latency }} minutos</p>
+    <p><strong>Hora de Acordar:</strong> {{ wake_time }}</p>
+    <p><strong>Qualidade do Sono:</strong> {{ sleep_quality }}</p>
+    
+    <h2>Pontuação Total do PSQI: {{ total_score }}</h2>
+
+    {% if total_score >= 5 %}
+        <p><strong>Indicação de problemas com a qualidade do sono.</strong></p>
+    {% else %}
+        <p><strong>Boa qualidade do sono.</strong></p>
+    {% endif %}
+
+    <a href="/">Voltar ao formulário</a>
+</body>
+</html>
+

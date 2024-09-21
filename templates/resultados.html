@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados PSQI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .score {
+            font-size: 24px;
+            color: #007bff;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feedback {
+            font-size: 20px;
+            text-align: center;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .feedback.good {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .feedback.moderate {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .feedback.poor {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .buttons {
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultados do PSQI</h1>
+        <p>Sua pontuação total no PSQI foi:</p>
+        <div class="score">{{ pontuacao_total }}</div>
+
+        <div class="feedback 
+        {% if pontuacao_total <= 5 %} good 
+        {% elif pontuacao_total <= 10 %} moderate 
+        {% else %} poor {% endif %}">
+            {% if pontuacao_total <= 5 %}
+                Qualidade de sono boa. Você não apresenta problemas significativos relacionados ao sono.
+            {% elif pontuacao_total <= 10 %}
+                Qualidade de sono moderada. Pode haver alguns problemas leves relacionados ao sono.
+            {% else %}
+                Qualidade de sono ruim. Você pode estar enfrentando problemas com o sono, e recomenda-se buscar ajuda.
+            {% endif %}
+        </div>
+
+        <div class="buttons">
+            <a href="{{ url_for('index') }}" class="button">Voltar ao questionário</a>
+            <a href="{{ url_for('historico') }}" class="button">Ver histórico</a>
+        </div>
+    </div>
+</body>
+</html>

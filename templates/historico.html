@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Respostas</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Histórico de Respostas do PSQI</h1>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Hora de Dormir</th>
+            <th>Latência do Sono (min)</th>
+            <th>Hora de Acordar</th>
+            <th>Qualidade do Sono</th>
+            <th>Pontuação Total</th>
+        </tr>
+        {% for response in responses %}
+        <tr>
+            <td>{{ response['id'] }}</td>
+            <td>{{ response['bedtime'] }}</td>
+            <td>{{ response['sleep_latency'] }}</td>
+            <td>{{ response['wake_time'] }}</td>
+            <td>{{ response['sleep_quality'] }}</td>
+            <td>{{ response['total_score'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/">Voltar ao formulário</a>
+</body>
+</html>
